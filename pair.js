@@ -2,7 +2,7 @@ const { makeid } = require('./gen-id'); const express = require('express'); cons
 
 const { upload } = require('./mega'); function removeFile(FilePath) { if (!fs.existsSync(FilePath)) return false; fs.rmSync(FilePath, { recursive: true, force: true }); }
 
-router.get('/', async (req, res) => { const id = makeid(); let num = req.query.number; async function PEACE_MD_PAIR_CODE() { const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id); try { const browserChoice = ["Safari"]; const browser = browserChoice[Math.floor(Math.random() * browserChoice.length)];
+router.get('/', async (req, res) => { const id = makeid(); let num = req.query.number; async function PEACE_MD_PAIR_CODE() { const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id); try { const browserChoice = ["Chrome"]; const browser = browserChoice[Math.floor(Math.random() * browserChoice.length)];
 
 let sock = makeWASocket({
             auth: {
