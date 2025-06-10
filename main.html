@@ -1,131 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PEACE-MD SESSION</title>
   <style>
     body {
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
       color: white;
-    }
-
-    {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "url": "https://railway.app",
-            "logo": "https://files.catbox.moe/og4tsk.jpg"
-    }
-
-    .button-container {
       text-align: center;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://files.catbox.moe/n0dgjr.jpg') no-repeat center center fixed;
+      background-size: cover;
+      z-index: -3;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -2;
+    }
+
+    .bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      opacity: 0.3;
+      background: radial-gradient(circle, #00ff99 0%, #00ccff 100%);
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.3; }
+      100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+    }
+
+    .layer-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 15px;
+      margin: 20px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .header-layer {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
+      padding: 10px 15px;
     }
 
-    h3 {
-      margin-top: -40px;
-      opacity: 0;
-      animation: fadeIn 3s forwards;
-    }
-
-    .button {
-      width: 140px;
+    .profile-icon {
+      width: 40px;
       height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0px 15px;
-      background-color: red;
-      border-radius: 10px;
-      border: none;
-      color: white;
-      position: relative;
-      cursor: pointer;
-      font-weight: 900;
-      transition-duration: .2s;
-      background: linear-gradient(0deg, #000, #272727);
-      text-decoration: none;
+      border-radius: 50%;
+      background-image: url('https://files.catbox.moe/n0dgjr.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #32CD32;
     }
 
-  
-    footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #222; /* Darker gray footer background */
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    
-  }
-    .button:before, .button:after {
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      background: linear-gradient(to right, orange, #32CD32);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    .battery {
+      display: flex;
+      align-items: center;
+    }
+
+    .battery-icon {
+      width: 30px;
+      height: 15px;
+      border: 2px solid white;
+      position: relative;
+      margin-right: 5px;
+      background-color: transparent;
+      overflow: hidden;
+    }
+
+    .battery-icon::after {
       content: '';
       position: absolute;
-      left: -2px;
-      top: -2px;
-      border-radius: 10px;
-      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
-      background-size: 400%;
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      z-index: -1;
-      animation: steam 10s linear infinite;
+      top: 4px;
+      right: -5px;
+      width: 3px;
+      height: 7px;
+      background-color: white;
+      border-radius: 1px;
     }
 
-    @keyframes steam {
-      0% {
-        background-position: 0 0;
-      }
+    .battery-level {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #00ff00;
+    }
 
+    .time-text {
+      margin-left: 10px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+      }
       50% {
-        background-position: 400% 0;
-      }
-
-      100% {
-        background-position: 0 0;
+        text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
       }
     }
 
-    .button:after {
-      filter: blur(50px);
+    .btn {
+      background: linear-gradient(to right, #ff6600, #32cd32);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
+      width: 220px;
     }
 
-    .button span {
-      z-index: 1;
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #ccc;
+      animation: pulse 3s infinite;
+      text-shadow: 0 0 5px #32cd32;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    a.button span {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(to right, red, #ff6600);
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .music-icon {
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .bar {
+      display: inline-block;
+      width: 3px;
+      height: 10px;
+      margin: 0 1px;
+      background: #fff;
+      animation: bounce 1s infinite ease-in-out;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.2s; }
+    .bar:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { height: 10px; }
+      50% { height: 20px; }
+    }
+
+    .music-icon.hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="button-container">
-    <h3>SHADOW-XTECH SESSION</h3>
-    <div></div>
-    <a href="/qr" class="button" target="_blank"> <span>QR-CODE</span> </a> <br>
-    <a href="/pair" class="button" target="_blank"> <span>PAIRING-CODE</span> </a> <br>
-    <a href="https://github.com/Tappy-Black/Shadow-Xtech-V1/fork" class="button" target="_blank"> <span>FORK SHADOW XTECH</span> </a> <br> </a>
-    <a href="https://whatsapp.com/channel/0029VasHgfG4tRrwjAUyTs10" class="button" target="_blank"> <span>WhatsApp</span> </a> <br>
 
+  <!-- Background Animation -->
+  <div class="bubbles" id="bubbles-container"></div>
+
+  <!-- Header -->
+  <div class="layer-box header-layer">
+    <div class="profile-icon"></div>
+    <div class="header-title">PEACE-MD SESSION</div>
+    <div class="battery">
+      <div class="battery-icon">
+        <div class="battery-level" id="battery-level"></div>
+      </div>
+      <div class="time-text" id="phone-time">--:--</div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="layer-box">
+    <button class="btn" onclick="location.href='/qr.html'">QR-CODE</button><br/>
+    <button class="btn" onclick="location.href='/pair.html'">PAIRING-CODE</button><br/>
+    <button class="btn" onclick="location.href='https://github.com/Peacemaker-Cyber/PEACE MD/fork'">FORK PEACE MD</button><br/>
+    <button class="btn" onclick="location.href='https://whatsapp.com/channel/0029VbA9YD323n3ko5xL7J1e'">WHATSAPP</button><br/>
+    <button class="btn" id="music-button">
+      <span id="music-label">PLAY MUSIC</span>
+      <span id="music-icon" class="music-icon hidden">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Audio Player -->
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/09ku2f.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Error Section -->
+  <div class="layer-box">
     <p>FACE ANY ISSUES CLICK ERROR BUTTON</p>
+    <a href="https://wa.me/254769876178" class="button" target="_blank"><span>ERROR</span></a>
+  </div>
 
-    <a href="https://wa.me/254759000340" class="button" target="_blank"> <span>ERROR</span> </a> <br>
+  <!-- Footer -->
+  <div class="footer">
+    PEACEMAKER SYSTEMS &copy; <span id="currentYear"></span>
+  </div>
 
-    <footer>
-     SHADOW-XTECH &copy; <span id="currentYear"></span>
-    </footer>
-  
+  <script>
+    // Clock
+    setInterval(() => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('phone-time').textContent = `${hours}:${minutes}`;
+    }, 1000);
+
+    // Battery
+    navigator.getBattery?.().then(battery => {
+      const updateBattery = () => {
+        const level = battery.level * 100;
+        const batteryLevel = document.getElementById('battery-level');
+        batteryLevel.style.width = `${level}%`;
+        batteryLevel.style.backgroundColor = level >= 60 ? '#00ff00' : level >= 30 ? '#ffff00' : '#ff0000';
+      };
+      updateBattery();
+      battery.addEventListener('levelchange', updateBattery);
+    });
+
+    // Bubble Animation
+    const container = document.getElementById('bubbles-container');
+    for (let i = 0; i < 25; i++) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      const size = Math.random() * 20 + 10;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.animationDuration = `${5 + Math.random() * 10}s`;
+      bubble.style.animationDelay = `${Math.random() * 10}s`;
+      container.appendChild(bubble);
+    }
+
+    // Set footer year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Music toggle
+    const musicBtn = document.getElementById('music-button');
+    const music = document.getElementById('bg-music');
+    const musicLabel = document.getElementById('music-label');
+    const musicIcon = document.getElementById('music-icon');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        musicLabel.textContent = 'PLAY MUSIC';
+        musicIcon.classList.add('hidden');
+      } else {
+        music.play();
+        musicLabel.textContent = 'PAUSE MUSIC';
+        musicIcon.classList.remove('hidden');
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+
 </body>
 </html>
