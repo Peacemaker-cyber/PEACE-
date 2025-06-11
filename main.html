@@ -74,71 +74,64 @@
 
     .header-layer {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      position: relative;
       padding: 10px 15px;
     }
 
-    .profile-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-image: url('https://files.catbox.moe/n0dgjr.jpg');
-      background-size: cover;
-      background-position: center;
-      border: 2px solid #32CD32;
-    }
-
     .header-title {
-      flex: 1;
-      text-align: center;
       font-size: 20px;
       font-weight: bold;
       background: linear-gradient(to right, orange, #32CD32);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 2px 2px 4px #000;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .time-text {
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
     }
 
     .battery {
       display: flex;
       align-items: center;
+      position: absolute;
+      right: 10px;
+      height: 20px;
     }
 
-    .battery-icon {
-      width: 30px;
-      height: 15px;
+    .battery-body {
+      width: 35px;
+      height: 18px;
       border: 2px solid white;
       position: relative;
-      margin-right: 5px;
+      border-radius: 4px;
+      box-sizing: border-box;
       background-color: transparent;
-      overflow: hidden;
-    }
-
-    .battery-icon::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      right: -5px;
-      width: 3px;
-      height: 7px;
-      background-color: white;
-      border-radius: 1px;
     }
 
     .battery-level {
-      position: absolute;
-      top: 0;
-      left: 0;
       height: 100%;
-      width: 100%;
-      background-color: #00ff00;
+      background-color: #00ff00; /* Bright Green */
+      border-radius: 2px 0 0 2px;
+      transition: width 0.3s ease;
     }
 
-    .time-text {
-      margin-left: 10px;
-      font-weight: bold;
-      animation: pulse 2s infinite;
+    .battery-cap {
+      position: absolute;
+      right: -6px;
+      top: 4px;
+      width: 4px;
+      height: 8px;
+      background-color: white;
+      border-radius: 1px;
     }
 
     @keyframes pulse {
@@ -213,24 +206,22 @@
 </head>
 <body>
 
-  <!-- Background Animation -->
   <div class="bubbles" id="bubbles-container"></div>
 
   <!-- Header -->
   <div class="layer-box header-layer">
-    <div class="profile-icon"></div>
+    <div class="time-text" id="phone-time">--:--</div>
     <div class="header-title">PEACE-MD SESSION</div>
     <div class="battery">
-      <div class="battery-icon">
-        <div class="battery-level" id="battery-level"></div>
+      <div class="battery-body">
+        <div class="battery-level" id="battery-level" style="width: 100%;"></div>
+        <div class="battery-cap"></div>
       </div>
-      <div class="time-text" id="phone-time">--:--</div>
     </div>
   </div>
 
-  <!-- Buttons -->
+  <!-- Main Buttons -->
   <div class="layer-box">
-    <div></div>
     <button class="btn" onclick="window.open('/qr', '_blank')">QR-CODE</button><br>
     <button class="btn" onclick="window.open('/pair', '_blank')">PAIRING-CODE</button><br>
     <button class="btn" onclick="location.href='https://github.com/Peacemaker-Cyber/PEACE-MD/fork'">FORK PEACE MD</button><br/>
@@ -243,16 +234,16 @@
     </button>
   </div>
 
-  <!-- Audio Player -->
+  <!-- Audio -->
   <audio id="bg-music" loop>
     <source src="https://files.catbox.moe/09ku2f.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <!-- Error Section -->
+  <!-- Error Help -->
   <div class="layer-box">
     <p>FACE ANY ISSUES CLICK ERROR BUTTON</p>
-    <a href="https://wa.me/254769876178" class="button" target="_blank"><span>ERROR</span></a>
+    <a href="https://wa.me/254752818245" class="button" target="_blank"><span>ERROR</span></a>
   </div>
 
   <!-- Footer -->
@@ -261,7 +252,7 @@
   </div>
 
   <script>
-    // Clock
+    // Time
     setInterval(() => {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -269,19 +260,17 @@
       document.getElementById('phone-time').textContent = `${hours}:${minutes}`;
     }, 1000);
 
-    // Battery
+    // Battery level
     navigator.getBattery?.().then(battery => {
       const updateBattery = () => {
         const level = battery.level * 100;
-        const batteryLevel = document.getElementById('battery-level');
-        batteryLevel.style.width = `${level}%`;
-        batteryLevel.style.backgroundColor = level >= 60 ? '#00ff00' : level >= 30 ? '#ffff00' : '#ff0000';
+        document.getElementById('battery-level').style.width = `${level}%`;
       };
       updateBattery();
       battery.addEventListener('levelchange', updateBattery);
     });
 
-    // Bubble Animation
+    // Bubbles
     const container = document.getElementById('bubbles-container');
     for (let i = 0; i < 25; i++) {
       const bubble = document.createElement('div');
@@ -295,10 +284,10 @@
       container.appendChild(bubble);
     }
 
-    // Set footer year
+    // Footer year
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Music toggle
+    // Music button
     const musicBtn = document.getElementById('music-button');
     const music = document.getElementById('bg-music');
     const musicLabel = document.getElementById('music-label');
@@ -318,6 +307,5 @@
       isPlaying = !isPlaying;
     });
   </script>
-
 </body>
 </html>
